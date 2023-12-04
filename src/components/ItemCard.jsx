@@ -1,28 +1,36 @@
 import React from 'react'
 import {AiOutlinePlus, AiOutlineMinus} from "react-icons/ai"
 import { MdDelete } from "react-icons/md"
-const ItemCard = () => {
+import { useDispatch } from 'react-redux'
+import { removeFromCart, incrementQty, decrementQty } from '../redux/slices/CartSlice'
+const ItemCard = ({id, name, price, qty, img}) => {
+
+    const dispatch = useDispatch();
   return (
     <div className='flex gap-2 shadow-md rounded-lg p-2 mb-3'>
         <MdDelete
+            onClick={()=> dispatch(removeFromCart({id, img, name, price, qty}))}
             className='absolute right-7 text-gray-600 cursor-pointer' />
         <img 
-            src="https://img.freepik.com/free-photo/seafood-pizza_74190-5944.jpg?w=996&t=st=1693062328~exp=1693062928~hmac=53fd9ad496580db41c6ca8066510cd89c6b0a0389de8bb6b875a78a1eda09cb5" 
+            src={img} 
             alt=''
             className='h-[50px] w-[50px]'
         />
         <div className='leading-5'>
-            <h2 className='font-bold text-gray-600'>oNION Pizza</h2>
+            <h2 className='font-bold text-gray-600'>{name}</h2>
             <div className='flex justify-between '>
-                <span className='text-green-500 font-bold'>₹120</span>
+                <span className='text-green-500 font-bold'>₹{price}</span>
                 <div className='flex justify-center items-center gap-2 absolute right-7'>
-                    <AiOutlinePlus 
-                        className='border-2 border-gray-600 text-gray-600 hover:text-white hover:bg-green-500 hover:border-none rounded-md p-1 text-xl transition-all ease-linear cursor-pointer'
-                    />
-                    <span>0</span>
                     <AiOutlineMinus
+                        onClick={()=> qty>1 ? dispatch(decrementQty({id})) : (qty=1)}
                         className='border-2 border-gray-600 text-gray-600 hover:text-white hover:bg-green-500 hover:border-none rounded-md p-1 text-xl transition-all ease-linear cursor-pointer' 
                     />
+                    <span>{qty}</span>
+                    <AiOutlinePlus 
+                        onClick={()=> qty>=1 ? dispatch(incrementQty({id})) : (qty=0)}
+                        className='border-2 border-gray-600 text-gray-600 hover:text-white hover:bg-green-500 hover:border-none rounded-md p-1 text-xl transition-all ease-linear cursor-pointer'
+                    />
+                    
                 </div>
             </div>
         </div>
