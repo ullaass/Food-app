@@ -9,7 +9,11 @@ const ItemCard = ({id, name, price, qty, img}) => {
   return (
     <div className='flex gap-2 shadow-md rounded-lg p-2 mb-3'>
         <MdDelete
-            onClick={()=> dispatch(removeFromCart({id, img, name, price, qty}))}
+            onClick={()=> {
+                dispatch(removeFromCart({id, img, name, price, qty}))
+                toast(`${name} Removed!`, {
+                icon: "👋",
+          });}}
             className='absolute right-7 text-gray-600 cursor-pointer' />
         <img 
             src={img} 
